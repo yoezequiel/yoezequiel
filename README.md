@@ -1,4 +1,4 @@
-# Sobre mí 😄:
+# Sobre mí:
 
 ¡Hola! Soy Ezequiel Casiano, un estudiante de desarrollo de software apasionado por el mundo de la programación. Durante los últimos 2 años, he estado inmerso en el aprendizaje y la práctica de diversas tecnologías.
 Mi área de especialización abarca un amplio espectro, ya que me gusta explorar diferentes áreas y siempre estoy dispuesto a aprender más. Sin embargo, mis conocimientos más sólidos se encuentran en el desarrollo web y en el lenguaje de programación Python.
