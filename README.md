@@ -22,6 +22,3 @@
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-
-## Estadísticas de GitHub 📈:
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=yoezequiel&theme=dracula&hide_border=true&include_all_commits=true&count_private=true&layout=compact)
