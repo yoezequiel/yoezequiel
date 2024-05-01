@@ -2,7 +2,7 @@
 
 ###
 
-<p align="center">¡Hola! Soy Ezequiel Casiano, un estudiante apasionado de desarrollo de software con enfoque en desarrollo web y Python. Durante los últimos 2 años, he estado inmerso en el aprendizaje y la práctica de diversas tecnologías, siempre dispuesto a explorar y aprender más.</p>
+<p align="center">¡Hola! Soy Ezequiel Casiano, un estudiante apasionado de desarrollo de software con enfoque en desarrollo web y Python. Durante los últimos 3 años, he estado inmerso en el aprendizaje y la práctica de diversas tecnologías, siempre dispuesto a explorar y aprender más.</p>
 
 ###
 
