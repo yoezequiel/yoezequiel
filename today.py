@@ -112,12 +112,12 @@ def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, delet
     """
     query_count('recursive_loc')
     query = '''
-    query ($repo_name: String!, $owner: String!, $cursor: String) {
+    query ($repo_name: String!, $owner: String!, $cursor: String, $author_id: ID!) {
         repository(name: $repo_name, owner: $owner) {
             defaultBranchRef {
                 target {
                     ... on Commit {
-                        history(first: 100, after: $cursor) {
+                        history(first: 100, after: $cursor, author: {id: $author_id}) {
                             totalCount
                             edges {
                                 node {
@@ -143,7 +143,7 @@ def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, delet
             }
         }
     }'''
-    variables = {'repo_name': repo_name, 'owner': owner, 'cursor': cursor}
+    variables = {'repo_name': repo_name, 'owner': owner, 'cursor': cursor, 'author_id': OWNER_ID['id']}
     request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables':variables}, headers=HEADERS) # I cannot use simple_request(), because I want to save the file before raising Exception
     if request.status_code == 200:
         if request.json()['data']['repository']['defaultBranchRef'] != None: # Only count commits if repo isn't empty
@@ -171,7 +171,9 @@ def loc_counter_one_repo(owner, repo_name, data, cache_comment, history, additio
     else: return recursive_loc(owner, repo_name, data, cache_comment, addition_total, deletion_total, my_commits, history['pageInfo']['endCursor'])
 
 
-def loc_query(owner_affiliation, comment_size=0, force_cache=False, cursor=None, edges=[]):
+def loc_query(owner_affiliation, comment_size=0, force_cache=False, cursor=None, edges=None):
+    if edges is None:
+        edges = []
     """
     Uses GitHub's GraphQL v4 API to query all the repositories I have access to (with respect to owner_affiliation)
     Queries 60 repos at a time, because larger queries give a 502 timeout error and smaller queries send too many
@@ -180,7 +182,7 @@ def loc_query(owner_affiliation, comment_size=0, force_cache=False, cursor=None,
     """
     query_count('loc_query')
     query = '''
-    query ($owner_affiliation: [RepositoryAffiliation], $login: String!, $cursor: String) {
+    query ($owner_affiliation: [RepositoryAffiliation], $login: String!, $cursor: String, $author_id: ID!) {
         user(login: $login) {
             repositories(first: 60, after: $cursor, ownerAffiliations: $owner_affiliation) {
             edges {
@@ -190,7 +192,7 @@ def loc_query(owner_affiliation, comment_size=0, force_cache=False, cursor=None,
                         defaultBranchRef {
                             target {
                                 ... on Commit {
-                                    history {
+                                    history(author: {id: $author_id}) {
                                         totalCount
                                         }
                                     }
@@ -206,7 +208,7 @@ def loc_query(owner_affiliation, comment_size=0, force_cache=False, cursor=None,
             }
         }
     }'''
-    variables = {'owner_affiliation': owner_affiliation, 'login': USER_NAME, 'cursor': cursor}
+    variables = {'owner_affiliation': owner_affiliation, 'login': USER_NAME, 'cursor': cursor, 'author_id': OWNER_ID['id']}
     request = simple_request(loc_query.__name__, query, variables)
     if request.json()['data']['user']['repositories']['pageInfo']['hasNextPage']:   # If repository data has another page
         edges += request.json()['data']['user']['repositories']['edges']            # Add on to the LoC count
