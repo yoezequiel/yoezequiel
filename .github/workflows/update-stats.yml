@@ -8,6 +8,9 @@ on:
         - cron: "0 0 * * *" # Se ejecuta todos los días a la medianoche (UTC)
     workflow_dispatch: # Permite ejecutar la acción manualmente
 
+permissions:
+  contents: write
+
 jobs:
     update-readme:
         runs-on: ubuntu-latest
